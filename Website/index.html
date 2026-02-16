@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Breed Classifier</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/e551444f35.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+    <style>
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+    }
+    .main {
+        width: 100%;
+        max-width: 900px;
+        text-align: center;
+        background: #fff;
+        padding: 30px;
+        border-radius: 8px;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 40px;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+        margin: 30px 0;
+    }
+    
+    .placeholder_box {
+        background-color: #030303;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #000;
+        font-weight: 500;
+    }
+    
+    /* Page 1 */
+    
+    .container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        margin-bottom: 50px;
+    }
+    
+    .item {
+        text-align: center;
+    }
+    
+    .item h3 {
+        margin: 0 0 10px 0;
+        font-size: 1.2rem;
+        color: #555;    
+    }
+    
+    .item img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        border: 4px solid #11191f; 
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .model_container {
+        text-align: left;
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .highlight_label {
+        padding: 4px 8px;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 8px;
+    }
+    
+    #model_options {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+        border-radius: 4px;
+    }
+    
+    .primary_btn {
+        color: #000;
+        padding: 15px;
+        font-size: 1.5rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        width: 100%;
+        max-width: 500px;
+        background-color: #f0f0f0;
+        border: 2px solid #ccc;
+    }
+    
+    .primary_btn:hover {
+        background-color: #e0e0e0;
+    }
+    
+    .main-action-btn {
+        height: 120px;
+        font-size: 2rem;
+    }
+    
+    /* Page 2 */
+    
+    .uploaded_image_container {
+        width: 100%;
+        max-width: 600px;
+        aspect-ratio: 4 / 3;
+        margin: 0 auto 40px auto;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    #uploaded_image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+        position: absolute;
+        top: 0; left: 0;
+    }
+    
+    #results_list {
+        width: 100%;
+        max-width: 850px;
+        margin: 0 auto 30px auto;
+        padding-bottom: 20px;
+        text-align: left;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .result-item {
+        background: #fff;
+        border: 1px solid #eee;
+        padding: 20px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        text-align: center;
+        width: calc(33.333% - 14px);
+        min-width: 220px;
+    }
+    
+    .result-item:nth-child(4),
+    .result-item:nth-child(5) {
+        width: calc(33.333% - 14px);
+        min-width: 220px;
+    }
+    
+    .result-item.top-result {
+        border: 3px solid #7ec2ed;
+        background-color: #f0f8ff;
+    }
+    
+    .result-thumb {
+        width: 200px;
+        height: 200px;
+        border-radius: 12px;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15px;
+        flex-shrink: 0;
+        overflow: hidden;
+        border: 3px solid #ddd;
+    }
+    
+    .result-text {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .breed-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #333;
+    }
+    
+    .breed-score {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 10px;
+    }
+    
+    .confidence-bar-bg {
+        width: 100%;
+        height: 8px;
+        background-color: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    
+    .confidence-bar-fill {
+        height: 100%;
+        background-color: #7ec2ed;
+        border-radius: 4px;
+    }
+    
+    .secondary_btn {
+        font-size: 1.2rem;
+        padding: 20px;
+    }
+    
+    @media (max-width: 768px) {
+        .container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        #results_list {
+            max-width: 500px;
+        }
+        
+        .result-item {
+            width: calc(50% - 10px);
+            min-width: 180px;
+        }
+        
+        .result-item:nth-child(5) {
+            width: calc(50% - 10px);
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .container {
+            grid-template-columns: 1fr;
+        }
+        h1 { font-size: 2rem; }
+        
+        .result-item {
+            width: 100%;
+            max-width: 350px;
+        }
+        
+        .result-item:nth-child(4),
+        .result-item:nth-child(5) {
+            width: 100%;
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="main">
+    <section id="upload_page">
+    <h1>Popular dog breeds</h1>
+    <div class="container">
+        <div class="item">
+            <h3>Poodle</h3>
+            <img src="Page1 Images/Dog1.jpg" alt="Poodle">
+        </div>
+        <div class="item">
+            <h3>Chihuahua</h3>
+            <img src="Page1 Images/Dog2.jpg" alt="Chihuahua">
+        </div>
+        <div class="item">
+            <h3>German Shepherd</h3>
+            <img src="Page1 Images/Dog3.jpg" alt="German Shepherd">
+        </div>
+         <div class="item">
+            <h3>Siberian Husky</h3>
+            <img src="Page1 Images/Dog4.jpg" alt="Siberian Husky">
+        </div>
+        <div class="item">
+            <h3>Bulldog</h3>
+            <img src="Page1 Images/Dog5.jpg" alt="Bulldog">
+        </div>
+        <div class="item">
+            <h3>Golden Retriever</h3>
+            <img src="Page1 Images/Dog6.jpg" alt="Golden Retriever">
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="model_container">
+            <label class="highlight_label">Model Options:</label>
+                <select id="model_options">
+                    <option value="DogBreedCNN">CNN</option>
+                    <option value="EfficientNetB0">EfficientNetB0 </option>
+                    <option value="ViT_B16">Vision Transformer(ViT B16)</option>
+                </select>
+        </div>
+            <input type="file" id="file_input" accept="image/png, image/jpeg" style="display: none;">    
+                <button id="upload_btn" class="primary_btn main_btn"><i class="fa-sharp fa-solid fa-upload"></i> Upload</button>
+    </div>
+    </section>
+
+    <section id="results_page" style="display: none;">
+        <div class="uploaded_image_container placeholder_box">
+            <img id="uploaded_image" src="" alt="Uploaded Dog">
+        </div>
+            <h2>Your Dog breed is more likely:</h2>
+            <div id="results_list"></div>
+            <button id="upload_another" class="primary_btn secondary_btn"><i class="fa-solid fa-upload"></i> Upload another</button>
+    </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
