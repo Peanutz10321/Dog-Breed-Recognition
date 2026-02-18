@@ -4,7 +4,7 @@ This project implements and evaluates three different model architectures for do
 
 ---
 
-##Models
+## Models
 
 | Model | Architecture | Format | Size |
 |-------|-------------|--------|------|
@@ -66,7 +66,7 @@ The web demo runs entirely in the browser using [ONNX Runtime Web](https://onnxr
 
 ---
 
-##Notebooks
+## Notebooks
 
 Each notebook covers the full pipeline for its respective model:
 
@@ -85,9 +85,9 @@ All notebooks run directly in google colab
 
 | Notebook | Colab Link |
 |----------|------------|
-| DogBreedCNN | [![Open In Colab](https://colab.research.google.com/drive/1adtN7L2kQkjQfKckqo0DHd5c3ndliled?usp=sharing) |
-| EfficientNetB0 | [![Open In Colab](https://colab.research.google.com/drive/10psSKX_nLUhrgC2Y5frzcGrxCPXyYo8C?usp=sharing) |
-| ViT-B/16 | [![Open In Colab](https://colab.research.google.com/drive/1V5Krwd8whFjoPdlV552YDtrF5EjSYajL?usp=sharing) |
+| DogBreedCNN | [Open In Colab](https://colab.research.google.com/drive/1adtN7L2kQkjQfKckqo0DHd5c3ndliled?usp=sharing) |
+| EfficientNetB0 | [Open In Colab](https://colab.research.google.com/drive/10psSKX_nLUhrgC2Y5frzcGrxCPXyYo8C?usp=sharing) |
+| ViT-B/16 | [Open In Colab](https://colab.research.google.com/drive/1V5Krwd8whFjoPdlV552YDtrF5EjSYajL?usp=sharing) |
 
 ---
 
