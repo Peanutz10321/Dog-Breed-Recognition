@@ -96,4 +96,4 @@ All notebooks run directly in google colab
 **Stanford Dogs Dataset**
 - 120 dog breeds
 - 20,580 images
-- Source: [http://vision.stanford.edu/aditya/cachedir/stanford_dogs/](https://www.kaggle.com/datasets/miljan/stanford-dogs-dataset-traintest)
+- Source: [kaggle](https://www.kaggle.com/datasets/miljan/stanford-dogs-dataset-traintest)
