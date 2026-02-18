@@ -1,10 +1,10 @@
-# 🐶 Dog Breed Recognition
+# Dog Breed Recognition
 
-A deep learning project that classifies **120 dog breeds** from the [Stanford Dogs Dataset](http://vision.stanford.edu/aditya/cachedir/stanford_dogs/) using three different model architectures — from a custom CNN to state-of-the-art Vision Transformers — with a lightweight web demo for live predictions.
+This project implements and evaluates three different model architectures for dog breed recognition on the [Standford Dogs Dataset](https://www.kaggle.com/datasets/miljan/stanford-dogs-dataset-traintest) that consists of 120 dog breeds.
 
 ---
 
-## 🧠 Models
+##Models
 
 | Model | Architecture | Format | Size |
 |-------|-------------|--------|------|
@@ -12,7 +12,7 @@ A deep learning project that classifies **120 dog breeds** from the [Stanford Do
 | **EfficientNetB0** | Transfer Learning | `.pth` / `.onnx` | ~19 MB |
 | **ViT-B/16** | Vision Transformer | `.pth` / `.onnx` | ~337 MB |
 
-> ⚠️ The ViT-B/16 model weights are too large for GitHub. Download them from Google Drive below.
+> The ViT-B/16 model weights are too large for GitHub. Download them from Google Drive below.
 
 ---
 
@@ -20,14 +20,14 @@ A deep learning project that classifies **120 dog breeds** from the [Stanford Do
 
 | Model | Download |
 |-------|----------|
-| ViT-B/16 `.pth` | [Google Drive](https://drive.google.com/your-link-here) |
-| ViT-B/16 `.onnx` | [Google Drive](https://drive.google.com/your-link-here) |
+| ViT-B/16 `.pth` | [Google Drive](https://drive.google.com/file/d/1dGpbz0uEAeynV0HMdt9BxLIp5ps7KsGn/view?usp=sharing) |
+| ViT-B/16 `.onnx` | [Google Drive](https://drive.google.com/file/d/1qhXXco6CPGCFkinYArfXBN31fzmwStLx/view?usp=sharing) |
 
 > The smaller CNN and EfficientNetB0 weights are included directly in this repo.
 
 ---
 
-## 🗂️ Project Structure
+##  Project Structure
 
 ```
 Dog-Breed-Recognition/
@@ -37,17 +37,18 @@ Dog-Breed-Recognition/
 │   └── ViT_B16_Transfer.ipynb       # Vision Transformer fine-tuning
 ├── Website/
 │   ├── index.html                   # Web demo interface
-│   ├── script.js                    # Prediction logic (ONNX Runtime)
-│   └── images/                      # Sample images for demo
+│   ├── script.js                    # Prediction logic
+|   |── Page1 Images                 # Sample Images
+│   └── Images/                      # Sample Image
 ├── .gitignore
 └── README.md
 ```
 
 ---
 
-## 🌐 Web Demo
+## Web Demo
 
-The web demo runs entirely **in the browser** using [ONNX Runtime Web](https://onnxruntime.ai/) — no server required.
+The web demo runs entirely in the browser using [ONNX Runtime Web](https://onnxruntime.ai/).
 
 ### How to run
 
@@ -65,7 +66,7 @@ The web demo runs entirely **in the browser** using [ONNX Runtime Web](https://o
 
 ---
 
-## 📓 Notebooks
+##Notebooks
 
 Each notebook covers the full pipeline for its respective model:
 
@@ -74,11 +75,19 @@ Each notebook covers the full pipeline for its respective model:
 - **Evaluation** — accuracy, confusion matrix, top-k predictions
 - **Export** to `.pth` (PyTorch) and `.onnx` (for web deployment)
 
-### Requirements
+### Running the notebooks
 
-```bash
-pip install torch torchvision timm matplotlib scikit-learn
-```
+#### Environment
+
+All notebooks run directly in google colab
+
+---
+
+| Notebook | Colab Link |
+|----------|------------|
+| DogBreedCNN | [![Open In Colab](https://colab.research.google.com/drive/1adtN7L2kQkjQfKckqo0DHd5c3ndliled?usp=sharing) |
+| EfficientNetB0 | [![Open In Colab](https://colab.research.google.com/drive/10psSKX_nLUhrgC2Y5frzcGrxCPXyYo8C?usp=sharing) |
+| ViT-B/16 | [![Open In Colab](https://colab.research.google.com/drive/1V5Krwd8whFjoPdlV552YDtrF5EjSYajL?usp=sharing) |
 
 ---
 
@@ -87,16 +96,4 @@ pip install torch torchvision timm matplotlib scikit-learn
 **Stanford Dogs Dataset**
 - 120 dog breeds
 - 20,580 images
-- Source: [http://vision.stanford.edu/aditya/cachedir/stanford_dogs/](http://vision.stanford.edu/aditya/cachedir/stanford_dogs/)
-
----
-
-## 👥 Contributors
-
-Built as a group project for the *Foundations of AI* course.
-
----
-
-## 📄 License
-
-This project is for educational purposes.
+- Source: [http://vision.stanford.edu/aditya/cachedir/stanford_dogs/](https://www.kaggle.com/datasets/miljan/stanford-dogs-dataset-traintest)
